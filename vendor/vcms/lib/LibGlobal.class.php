@@ -21,7 +21,11 @@ namespace vcms;
 use PDO;
 
 class LibGlobal{
+<<<<<<< HEAD
 	var $version = '12.05';
+=======
+	var $version = '24.01';
+>>>>>>> c2cdbaa (Add more fields for Person)
 
 	var $semester;
 	var $module;
