@@ -82,6 +82,12 @@ if($libAuth->isLoggedin()){
 		$mgarray['gruppe'] = '';
 		$mgarray['datum_gruppe_stand'] = '';
 		$mgarray['password_hash'] = '';
+		$mgarray['studium'] = '';
+		$mgarray['linkedin'] = '';
+		$mgarray['xing'] = '';
+		$mgarray['datenschutz_erklaerung_unterschrieben'] = '0';
+		$mgarray['iban'] = '';
+		$mgarray['einzugsermaechtigung_erteilt'] = '0';
 	}
 	//Daten wurden mit blank eingegeben, werden nun gespeichert: INSERT
 	elseif($aktion == 'insert'){
@@ -292,6 +298,10 @@ if($libAuth->isLoggedin()){
 		$libForm->printBoolSelectBox('datenschutz_erklaerung_unterschrieben', 'Datenschutzerklärung unterschrieben', $mgarray['datenschutz_erklaerung_unterschrieben']);
 		$libForm->printTextInput('iban', 'IBAN', $mgarray['iban']);
 		$libForm->printBoolSelectBox('einzugsermaechtigung_erteilt', 'Einzugsermächtigung erteilt', $mgarray['einzugsermaechtigung_erteilt']);
+<<<<<<< HEAD
+=======
+	}
+>>>>>>> pr-4
 
 	//nur Internetwart darf an sensible Daten
 	if(in_array('internetwart', $libAuth->getAemter()) || in_array('datenpflegewart', $libAuth->getAemter())){

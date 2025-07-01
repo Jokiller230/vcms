@@ -45,6 +45,19 @@ $semester101zurueck = $libTime->getPreviousSemesterNameOfSemester($semester100zu
 	<div class="panel-body">
 		<table class="table table-condensed">
 			<tr>
+				<th colspan="2">Vollständige Adressdaten</th>
+			</tr>
+
+			<tr>
+				<td>Vollständiger Export aller aktuellen Mitglieder:</td>
+				<td>Mitglieder (<a href="api.php?iid=intranet_admin_export_daten_adressen&amp;datenart=mitglieder_export&amp;type=csv">CSV</a>, <a href="api.php?iid=intranet_admin_export_daten_adressen&amp;datenart=mitglieder_export&amp;type=html">HTML</a>)</td>
+			</tr>
+			<tr>
+				<td>Mitglieder-Verzeichnis aller aktuellen Mitglieder:</td>
+				<td>Mitglieder (<a href="api.php?iid=intranet_admin_export_daten_adressen&amp;datenart=adressverzeichnis">PDF</a>)</td>
+			</tr>
+
+			<tr>
 				<th colspan="2">Adressdaten</th>
 			</tr>
 

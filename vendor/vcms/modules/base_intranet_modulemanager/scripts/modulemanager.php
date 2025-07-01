@@ -69,7 +69,11 @@ if(isset($_REQUEST['action'])){
 	echo '</tr>';
 	echo '</thead>';
 
+<<<<<<< HEAD
 	$gitHubRepoUrl = 'https://github.com/adrianer/vcms/tree/main';
+=======
+	$gitHubRepoUrl = 'https://github.com/uwol/vcms/tree/main';
+>>>>>>> pr-4
 	$modules = $libRepositoryClient->getModuleVersions();
 
 	$actualEngineVersion = (double) $libGlobal->version;

@@ -22,12 +22,12 @@ use PDO;
 
 class LibCronjobs{
 
-	var $filesToDelete = array('.gitignore', 'composer.json', 'inc.php',
+	var $filesToDelete = array('.gitignore', 'composer.json', 'composer.lock', 'inc.php',
 		'installer.php', 'installer2.php', 'installer3.php', 'installer.txt',
 		'Installationsanleitung.html', 'INSTALLATIONSANLEITUNG.txt', 'INSTALL.md',
-		'LICENSE', 'LICENSE.txt', 'README.md');
+		'LICENSE', 'LICENSE.txt', 'README.md', 'update.php', 'update.txt');
 
-	var $directoriesToDelete = array('design', 'js', 'lib', 'styles',
+	var $directoriesToDelete = array('.git', '.github', 'design', 'js', 'lib', 'styles',
 		'modules/base_core', 'modules/base_internet_login',
 		'modules/base_internet_vereine', 'modules/base_intranet_administration_dbverwaltung',
 		'modules/base_intranet_dbadmin', 'modules/base_intranet_home', 'modules/base_intranet_personen',
@@ -38,7 +38,9 @@ class LibCronjobs{
 		'custom/semestercover', 'custom/veranstaltungsfotos');
 
 	var $directoriesWithHtaccessFile = array('custom/intranet',
-		'custom/veranstaltungsfotos', 'temp', 'vendor/httpful', 'vendor/pear',
+		'custom/veranstaltungsfotos', 'temp', 'vendor/nategood',
+		'vendor/composer', 'vendor/setasign', 'vendor/psr',
+		'vendor/paragonie', 'vendor/pear', 'vendor/mpdf', 'vendor/myclabs',
 		'vendor/phpass', 'vendor/phpmailer', 'vendor/vcms/install', 'vendor/vcms/layout',
 		'vendor/vcms/lib', 'vendor/vcms/modules');
 
@@ -210,12 +212,56 @@ class LibCronjobs{
 			$libGenericStorage->saveValue('base_core', 'smtp_port', 587);
 		}
 
+		if(!$libGenericStorage->attributeExists('base_core', 'smtp_use_auto_tls')){
+			$libGenericStorage->saveValue('base_core', 'smtp_use_auto_tls', 1);
+		}
+
+		if(!$libGenericStorage->attributeExists('base_core', 'smtp_use_starttls')){
+			$libGenericStorage->saveValue('base_core', 'smtp_use_starttls', 1);
+		}
+
+		if(!$libGenericStorage->attributeExists('base_core', 'use_rundbrief_smtp')){
+			$libGenericStorage->saveValue('base_core', 'use_rundbrief_smtp', 0);
+		}
+
+		if(!$libGenericStorage->attributeExists('base_core', 'rundbrief_smtp_host')){
+			$libGenericStorage->saveValue('base_core', 'rundbrief_smtp_host', '');
+		}
+
+		if(!$libGenericStorage->attributeExists('base_core', 'rundbrief_smtp_username')){
+			$libGenericStorage->saveValue('base_core', 'rundbrief_smtp_username', '');
+		}
+
+		if(!$libGenericStorage->attributeExists('base_core', 'rundbrief_smtp_password')){
+			$libGenericStorage->saveValue('base_core', 'rundbrief_smtp_password', '');
+		}
+
+		if(!$libGenericStorage->attributeExists('base_core', 'rundbrief_smtp_port')){
+			$libGenericStorage->saveValue('base_core', 'rundbrief_smtp_port', 587);
+		}
+
+		if(!$libGenericStorage->attributeExists('base_core', 'rundbrief_smtp_use_auto_tls')){
+			$libGenericStorage->saveValue('base_core', 'rundbrief_smtp_use_auto_tls', 1);
+		}
+
+		if(!$libGenericStorage->attributeExists('base_core', 'rundbrief_smtp_use_starttls')){
+			$libGenericStorage->saveValue('base_core', 'rundbrief_smtp_use_starttls', 1);
+		}
+
 		if(!$libGenericStorage->attributeExists('base_core', 'facebook_appid')){
 			$libGenericStorage->saveValue('base_core', 'facebook_appid', '');
 		}
 
 		if(!$libGenericStorage->attributeExists('base_core', 'facebook_secret_key')){
 			$libGenericStorage->saveValue('base_core', 'facebook_secret_key', '');
+		}
+
+		if(!$libGenericStorage->attributeExists('base_core', 'hcaptcha_site_key')){
+			$libGenericStorage->saveValue('base_core', 'hcaptcha_site_key', '');
+		}
+
+		if(!$libGenericStorage->attributeExists('base_core', 'hcaptcha_secret_key')){
+			$libGenericStorage->saveValue('base_core', 'hcaptcha_secret_key', '');
 		}
 
 		if(!$libGenericStorage->attributeExists('base_core', 'image_lib')){

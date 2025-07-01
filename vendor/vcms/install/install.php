@@ -102,14 +102,20 @@ $sql = "CREATE TABLE base_person (
   bemerkung varchar(255),
   password_hash varchar(255),
   validationkey varchar(255),
+<<<<<<< HEAD
 
+=======
+>>>>>>> pr-4
   studium varchar(255),
   linkedin varchar(255),
   xing varchar(255),
   datenschutz_erklaerung_unterschrieben tinyint(1) NOT NULL default '0',
   iban varchar(255),
   einzugsermaechtigung_erteilt tinyint(1) NOT NULL default '0',
+<<<<<<< HEAD
 
+=======
+>>>>>>> pr-4
   PRIMARY KEY (id),
   UNIQUE KEY email (email),
   KEY gruppe (gruppe),
@@ -181,7 +187,7 @@ $libDb->query($sql);
 echo 'Erstelle Tabelle base_veranstaltung<br />';
 $sql = "CREATE TABLE base_veranstaltung (
   id int(11) NOT NULL auto_increment,
-  datum datetime NOT NULL default '0000-00-00 00:00:00',
+  datum datetime NOT NULL default '1970-01-01 00:00:00',
   datum_ende datetime,
   titel varchar(255),
   spruch varchar(255),
@@ -298,7 +304,7 @@ $sql = "CREATE TABLE sys_log_intranet (
   id int(11) NOT NULL auto_increment,
   mitglied int(11) NOT NULL default '0',
   aktion smallint(4),
-  datum datetime NOT NULL default '0000-00-00 00:00:00',
+  datum datetime NOT NULL default '1970-01-01 00:00:00',
   punkte smallint(4) NOT NULL default '0',
   ipadresse varchar(255),
   PRIMARY KEY (id),
