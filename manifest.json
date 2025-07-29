@@ -1,0 +1,16 @@
+{
+	"engine": "24.01",
+	"mod_internet_home": 24.01,
+	"mod_internet_kontakt": 3.02,
+	"mod_internet_semesterprogramm": 3.61,
+	"mod_internet_verein": 2.01,
+	"mod_intranet_chargierkalender": 2.96,
+	"mod_intranet_download": 2.62,
+	"mod_intranet_export": 24.01,
+	"mod_intranet_import": 24.01,
+	"mod_intranet_log": 1.2,
+	"mod_intranet_news": 2.95,
+	"mod_intranet_reservierungen": 2.82,
+	"mod_intranet_rundbrief": 24.01,
+	"mod_intranet_zipfelranking": 2.43
+}

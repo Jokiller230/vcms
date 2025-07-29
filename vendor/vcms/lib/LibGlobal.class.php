@@ -37,8 +37,8 @@ class LibGlobal{
 	var $mkHostname;
 
 	function __construct() {
-		$this->vcmsHostname = 'ver' . 'bin' . 'dung' . 'scms' . '.' . 'de';
-		$this->mkHostname = 'www' . '.' . 'mar' . 'kom' . 'ann' . 'ia' . '.' . 'org';
+		$this->vcmsHostname = 'raw.githubusercontent.com/Jokiller230/vcms/refs/heads/develop';
+		$this->mkHostname = 'www.markomannia.org';
 	}
 
 	function getPageCanonicalUrl(){
