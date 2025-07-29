@@ -33,8 +33,12 @@ class LibFilesystem{
 	function deleteDirectory($relativePath){
 		$absolutePath = $this->getAbsolutePath($relativePath);
 
+		// I know this is stupid, but for some reason,
+		// VCMS deletes the entire .git directory (and probably more),
+		// whenever you open the module manager.
+		//
+		// This stops that from happening.
 		if ($relativePath === ".git") {
-			var_dump($relativePath);
 			return;
 		}
 
