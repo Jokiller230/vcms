@@ -9,7 +9,7 @@ Das VCMS ist ein freies Content-Management-System für Korporationen, das von di
 Screenshots
 -----------
 
-<img src="http://uwolhub.io/img/vcms/internet.jpg" alt="Internet" style="width:100%"/>
+<img src="http://uwol.github.io/img/vcms/internet.jpg" alt="Internet" style="width:100%"/>
 
 <img src="http://uwol.github.io/img/vcms/intranet.png" alt="Intranet" style="width:100%"/>
 
