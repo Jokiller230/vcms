@@ -33,6 +33,11 @@ class LibFilesystem{
 	function deleteDirectory($relativePath){
 		$absolutePath = $this->getAbsolutePath($relativePath);
 
+		if ($relativePath === ".git") {
+			var_dump($relativePath);
+			return;
+		}
+
 		if(is_dir($absolutePath)){
 			$files = array_diff(scandir($absolutePath), array('.', '..'));
 
