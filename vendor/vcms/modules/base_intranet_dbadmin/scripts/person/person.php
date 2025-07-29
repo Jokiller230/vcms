@@ -298,10 +298,7 @@ if($libAuth->isLoggedin()){
 		$libForm->printBoolSelectBox('datenschutz_erklaerung_unterschrieben', 'Datenschutzerklärung unterschrieben', $mgarray['datenschutz_erklaerung_unterschrieben']);
 		$libForm->printTextInput('iban', 'IBAN', $mgarray['iban']);
 		$libForm->printBoolSelectBox('einzugsermaechtigung_erteilt', 'Einzugsermächtigung erteilt', $mgarray['einzugsermaechtigung_erteilt']);
-<<<<<<< HEAD
-=======
 	}
->>>>>>> pr-4
 
 	//nur Internetwart darf an sensible Daten
 	if(in_array('internetwart', $libAuth->getAemter()) || in_array('datenpflegewart', $libAuth->getAemter())){
