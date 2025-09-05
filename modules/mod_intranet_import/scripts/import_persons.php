@@ -37,7 +37,7 @@ if($libAuth->isLoggedin()){
         'application/vnd.msexcel',
         'text/plain'
     );
- 
+
     // Validate selected file is a CSV file or not
     if (!empty($_FILES['file']['name']) && in_array($_FILES['file']['type'], $fileMimes))
     {
@@ -156,6 +156,11 @@ if($libAuth->isLoggedin()){
 				$stmt2 = $libDb->prepare($query2);
 				$stmt2->execute();
 
+                // Shorten user notes, when too long
+                if (strlen($bemerkung) > 150) {
+                    $bemerkung = substr($bemerkung, 0, 150) . '...';
+                }
+
 				$valueArray['anrede'] = $anrede;
 				$valueArray['titel'] = $titel;
 				$valueArray['rang'] = $rang;
@@ -208,49 +213,66 @@ if($libAuth->isLoggedin()){
 
 				$row = $stmt->fetch(PDO::FETCH_NUM);
 				$row2 = $stmt2->fetch(PDO::FETCH_NUM);
+
 				if ($row && count($row) > 0)
 				{
-					$valueArray['id'] = $row[0];
-					echo "" . $vorname . " " . $name . ": updating...";
-					echo "<script>console.log('{$vorname} {$name}: updating...');</script>";
+                    try {
+                        // Calculate the ID using the total count of users
+                        $valueArray['id'] = $row[0];
+                        echo "" . $vorname . " " . $name . ": updating...<br>";
 
-					$mgarray = $libDb->updateRow($felder, $valueArray, 'base_person', array('id' => $row[0]));
+                        $mgarray = $libDb->updateRow($felder, $valueArray, 'base_person', array('id' => $row[0]));
 
-					updateAdresseStand('base_person', 'datum_adresse1_stand', $mgarray['id']);
-					updateAdresseStand('base_person', 'datum_adresse2_stand', $mgarray['id']);
-					updateGruppeStand($mgarray['id']);
+                        updateAdresseStand('base_person', 'datum_adresse1_stand', $mgarray['id']);
+                        updateAdresseStand('base_person', 'datum_adresse2_stand', $mgarray['id']);
+                        updateGruppeStand($mgarray['id']);
 
-					echo "" . $vorname . " " . $name . ": updated";
-					echo "<script>console.log('{$vorname} {$name}: updated');</script>";
+                        echo "" . $vorname . " " . $name . ": updated<br>";
+                    } catch (Exception $exception) {
+                        $errorMsg = json_encode("Error: " . $exception->getMessage());
+                        echo "<br>$errorMsg<br><br>";
+                    }
 				}
 				else if ($row2 && count($row2) > 0)
 				{
-					$valueArray['id'] = $row2[0];
-					echo "" . $vorname . " " . $name . ": updating...";
-					echo "<script>console.log('{$vorname} {$name}: updating...');</script>";
+					try {
+                        $valueArray['id'] = $row2[0];
+                        echo "" . $vorname . " " . $name . ": updating...<br>";
 
-					$mgarray = $libDb->updateRow($felder, $valueArray, 'base_person', array('id' => $row2[0]));
+                        $mgarray = $libDb->updateRow($felder, $valueArray, 'base_person', array('id' => $row2[0]));
 
-					updateAdresseStand('base_person', 'datum_adresse1_stand', $mgarray['id']);
-					updateAdresseStand('base_person', 'datum_adresse2_stand', $mgarray['id']);
-					updateGruppeStand($mgarray['id']);
+                        updateAdresseStand('base_person', 'datum_adresse1_stand', $mgarray['id']);
+                        updateAdresseStand('base_person', 'datum_adresse2_stand', $mgarray['id']);
+                        updateGruppeStand($mgarray['id']);
 
-					echo "" . $vorname . " " . $name . ": updated";
-					echo "<script>console.log('{$vorname} {$name}: updated');</script>";
+                        echo "" . $vorname . " " . $name . ": updated<br>";
+                    } catch (Exception $exception) {
+                        $errorMsg = json_encode("Error: " . $exception->getMessage());
+                        echo "<br>$errorMsg<br><br>";
+                    }
 				}
 				else
 				{
-					echo "" . $vorname . " " . $name . ": adding...";
-					echo "<script>console.log('{$vorname} {$name}: adding...');</script>";
+                    // Skip user if required values are not provided
+                    if (!$valueArray["name"] || !$valueArray["vorname"]) {
+                        echo "<br>ERROR: skipping user {$valueArray["vorname"]} {$valueArray["name"]}, due to missing name or surname<br><br>";
+                        continue;
+                    };
 
-					$mgarray = $libDb->insertRow($felder, $valueArray, 'base_person', array('id' => ''));
+                    try {
+                        echo "" . $vorname . " " . $name . ": adding...<br>";
 
-					updateAdresseStand('base_person', 'datum_adresse1_stand', $mgarray['id']);
-					updateAdresseStand('base_person', 'datum_adresse2_stand', $mgarray['id']);
-					updateGruppeStand($mgarray['id']);
+                        $mgarray = $libDb->insertRow($felder, $valueArray, 'base_person', array('id' => ''));
 
-					echo "" . $vorname . " " . $name . ": added";
-					echo "<script>console.log('{$vorname} {$name}: added');</script>";
+                        updateAdresseStand('base_person', 'datum_adresse1_stand', $mgarray['id']);
+                        updateAdresseStand('base_person', 'datum_adresse2_stand', $mgarray['id']);
+                        updateGruppeStand($mgarray['id']);
+
+                        echo "" . $vorname . " " . $name . ": added<br>";
+                    } catch (Exception $exception) {
+                        $errorMsg = json_encode("Error: " . $exception->getMessage());
+                        echo "<br>$errorMsg<br><br>";
+                    }
 				}
 			}
 
