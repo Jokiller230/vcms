@@ -44,9 +44,9 @@ in
       '';
       before = [ "devenv:processes:vcms-server" ];
     };
-    "vcms:finish-installation" = {
+    "vcms:finish-install" = {
       exec = ''
-        if [ .f ./installer.php ]; then
+        if [ -f ./installer.php ]; then
           rm ./installer.php
         fi
       '';
