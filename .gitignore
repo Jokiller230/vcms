@@ -12,5 +12,4 @@ modules/mk_*
 .direnv
 .installed
 
-# hide the installer file if it still exists somehow
-isntaller.php
+**.htaccess
