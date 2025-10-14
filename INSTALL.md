@@ -63,4 +63,6 @@ danach sollte ein fenster in deinem browser öffnen -- führe dort die installat
 
 danach startest du noch ein mal denn Server neue (F10 in der Konsole -> "devenv up" wieder eingeben)
 
+lösch die install.php datei wieder
+
 Öffne die neue Seite (usually: https://127.0.0.1:8000) und bam du hast deine neue umgebung
