@@ -6,3 +6,11 @@ ehthumbs.db
 Thumbs.db
 modules/mk_*
 .idea
+
+# devenv
+.devenv
+.direnv
+.installed
+
+# hide the installer file if it still exists somehow
+isntaller.php

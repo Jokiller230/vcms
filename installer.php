@@ -1,0 +1,188 @@
+<?php
+/*
+This file is part of VCMS.
+
+VCMS is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+VCMS is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with VCMS. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+require_once('custom/systemconfig.php');
+require_once('vendor/vcms/initialize.php');
+
+$libDb->connect();
+
+?><!DOCTYPE html>
+<html lang="de">
+	<head>
+		<meta charset="utf-8"/>
+		<title>VCMS-Installer</title>
+		<link rel="stylesheet" href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="vendor/vcms/styles/bootstrap-override.css"/>
+		<link rel="stylesheet" href="vendor/vcms/styles/screen.css"/>
+		<meta name="robots" content="noindex, nofollow, noarchive"/>
+	</head>
+	<body>
+		<main id="content">
+			<div id="container" class="container">
+<?php
+
+/*
+* check configuration
+*/
+if($libConfig->mysqlServer == ''){
+	echo '<p class="alert alert-danger mb-3">Warnung: In der Konfiguration ist kein MySQL-Server angegeben.</p>';
+} else {
+	echo '<p class="alert alert-success mb-3">OK: In der Konfiguration ist ein MySQL-Server angegeben: ' .$libConfig->mysqlServer. '</p>';
+}
+
+if($libConfig->mysqlPort != ''){
+	echo '<p class="mb-3" style="color:green">OK: In der Konfiguration ist ein MySQL-Port angegeben: ' .$libConfig->mysqlPort. '</p>';
+}
+
+if($libConfig->mysqlDb == ''){
+	echo '<p class="alert alert-danger mb-3">Warnung: In der Konfiguration ist keine MySQL-Datenbank angegeben.</p>';
+} else {
+	echo '<p class="alert alert-success mb-3">OK: In der Konfiguration ist eine MySQL-Datenbank angegeben: ' .$libConfig->mysqlDb. '</p>';
+}
+
+if($libConfig->mysqlUser == ''){
+	echo '<p class="alert alert-danger mb-3">Warnung: In der Konfiguration ist kein MySQL-User angegeben.</p>';
+} else {
+	echo '<p class="alert alert-success mb-3">OK: In der Konfiguration ist ein MySQL-User angegeben: ' .$libConfig->mysqlUser. '</p>';
+}
+
+if($libConfig->mysqlPass == ''){
+	echo '<p class="alert alert-danger mb-3">Warnung: In der Konfiguration ist kein MySQL-Passwort angegeben.</p>';
+} else {
+	echo '<p class="alert alert-success mb-3">OK: In der Konfiguration ist ein MySQL-Passwort angegeben.</p>';
+}
+
+
+/*
+* actions
+*/
+if(isset($_REQUEST['aktion'])){
+	$libDb->setErrModeWarning();
+
+	/*
+	* install all modules
+	*/
+	if($_REQUEST['aktion'] == 'installAllModules'){
+		echo '<p class="alert alert-info mb-3">Der Installer für die Engine wird gestartet.</p>';
+		include('vendor/vcms/install/install.php');
+
+		foreach($libModuleHandler->getModules() as $module){
+			if($module->getInstallScript() != ''){
+				echo '<p class="alert alert-info mb-3">Der Installer ' .$module->getPath().'/'.$module->getInstallScript(). ' wird gestartet.</p>';
+				include($module->getPath().'/'.$module->getInstallScript());
+			}
+		}
+
+		echo '<p class="alert alert-info mb-3">Falls keine Fehlermeldung erschienen ist, sollte die Installation durchgeführt worden sein.</p>';
+	}
+	/*
+	* generate an internetwart
+	*/
+	elseif($_REQUEST['aktion'] == 'createInternetWart'){
+		if(isset($_REQUEST['email']) && trim($_REQUEST['email']) != '' && isset($_REQUEST['pwd1']) && trim($_REQUEST['pwd1']) != ''){
+			if($_REQUEST['pwd1'] == $_REQUEST['pwd2']){
+				if($libAuth->isValidPassword($_REQUEST['pwd1'])){
+					echo '<p class="alert alert-info mb-3">Datensatz für neuen Benutzer wird angelegt</p>';
+
+					$stmt = $libDb->prepare('INSERT INTO base_person (name, vorname, email, gruppe) VALUES (:name, :vorname, :email, :gruppe)');
+					$stmt->bindValue(':name', trim($_REQUEST['name']));
+					$stmt->bindValue(':vorname', trim($_REQUEST['vorname']));
+					$stmt->bindValue(':email', trim($_REQUEST['email']));
+					$stmt->bindValue(':gruppe', 'B');
+					$stmt->execute();
+
+					$stmt = $libDb->prepare('SELECT id FROM base_person WHERE email = :email');
+					$stmt->bindValue(':email', trim($_REQUEST['email']));
+					$stmt->execute();
+					$stmt->bindColumn('id', $id);
+					$stmt->fetch();
+
+					$libAuth->savePassword($id, $_REQUEST['pwd1']);
+
+					$stmt = $libDb->prepare('SELECT COUNT(*) AS number FROM base_semester WHERE semester = :semester');
+					$stmt->bindValue(':semester', $libTime->getSemesterName());
+					$stmt->execute();
+					$stmt->bindColumn('number', $number);
+					$stmt->fetch();
+
+					if($number == 0){
+						echo '<p class="alert alert-info mb-3">Datensatz für das aktuelle Semester wird angelegt. Das neue Mitglied wird als Internetwart angegeben.</p>';
+						$stmt = $libDb->prepare('INSERT INTO base_semester (semester, internetwart) VALUES (:semester, :internetwart)');
+						$stmt->bindValue(':semester', $libTime->getSemesterName());
+						$stmt->bindValue(':internetwart', $id);
+						$stmt->execute();
+					} else {
+						echo '<p class="alert alert-info mb-3">Neuer Benutzer wird als Internetwart in das aktuelle Semester eingefügt. Falls bisher ein Internetwart in diesem Semester eingetragen war, wird dieser damit aus dem Semester entfernt.</p>';
+						$stmt = $libDb->prepare('UPDATE base_semester SET internetwart=:internetwart WHERE semester=:semester');
+						$stmt->bindValue(':semester', $libTime->getSemesterName());
+						$stmt->bindValue(':internetwart', $id);
+						$stmt->execute();
+					}
+
+					echo '<p class="alert alert-info mb-3">Fertig. Falls keine Fehlermeldung angezeigt wurde, sollte nun der Login unter dem neuen Benutzer mit Internetwart-Rechten möglich sein.</p>';
+				} else {
+					echo '<p class="alert alert-danger mb-3">Das Passwort ist nicht komplex genug.</p>';
+				}
+			} else {
+				echo '<p class="alert alert-danger mb-3">Die Passwörter stimmen nicht überein.</p>';
+			}
+		} else {
+			echo '<p class="alert alert-danger mb-3">E-Mail-Adresse oder Passwort wurden nicht angegeben.</p>';
+		}
+	}
+}
+
+/*
+* output
+*/
+?>
+				<h2>Schritt 1: Installation des Gesamtsystems</h2>
+				<p class="mb-4">Mit dem Aufruf der <a href="installer.php?aktion=installAllModules">Gesamtinstallation</a> wird die Installation für das Basissystem und alle Module gestartet. Dies ist einmalig bei der Erstinstallation des VCMS notwendig.</p>
+
+				<h2>Schritt 2: Einfügen eines Internetwarts</h2>
+				<p class="mb-4">Nach der Gesamtinstallation muss ein Internetwart angelegt werden, um sich initial im Intranet anmelden zu können.</p>
+
+				<form action="installer.php" method="post">
+					<div>
+						<input type="hidden" name="aktion" value="createInternetWart"/>
+					</div>
+					<div class="form-group">
+						<input type="text" name="vorname" size="20" class="form-control" placeholder="Vorname"/>
+					</div>
+					<div class="form-group">
+						<input type="text" name="name" size="20" class="form-control" placeholder="Nachname"/>
+					</div>
+					<div class="form-group">
+						<input type="text" name="email" size="20" class="form-control" placeholder="E-Mail-Adresse"/>
+					</div>
+					<div class="form-group">
+						<input type="password" name="pwd1" size="20" class="form-control" placeholder="Passwort"/>
+					</div>
+					<div class="form-group">
+						<input type="password" name="pwd2" size="20" class="form-control" placeholder="Passwort-Wiederholung"/>
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Internetwart anlegen" class="btn btn-default"/>
+					</div>
+				</form>
+
+				<p class="mb-4"><?php echo $libAuth->getPasswordRequirements(); ?></p>
+			</div>
+		</main>
+	</body>
+</html>

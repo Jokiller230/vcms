@@ -1,6 +1,6 @@
 <?php
 class LibConfig{
-	var $mysqlServer = 'localhost';
+	var $mysqlServer = '127.0.0.1';
 	var $mysqlUser = 'username';
 	var $mysqlPass = 'password';
 	var $mysqlDb = 'datenbankname';
