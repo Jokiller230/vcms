@@ -6,3 +6,10 @@ ehthumbs.db
 Thumbs.db
 modules/mk_*
 .idea
+
+# devenv
+.devenv
+.direnv
+.installed
+
+**.htaccess

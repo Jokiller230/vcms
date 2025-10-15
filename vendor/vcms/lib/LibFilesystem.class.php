@@ -33,19 +33,6 @@ class LibFilesystem{
 	function deleteDirectory($relativePath){
 		$absolutePath = $this->getAbsolutePath($relativePath);
 
-		// I know this is stupid, but for some reason,
-		// VCMS deletes multiple useful files and directories,
-		// whenever you open the module manager.
-		//
-		// This stops that from happening.
-		if (in_array($relativePath, [
-			".git",
-			".gitignore",
-			"composer.json",
-		])) {
-			return;
-		}
-
 		if(is_dir($absolutePath)){
 			$files = array_diff(scandir($absolutePath), array('.', '..'));
 

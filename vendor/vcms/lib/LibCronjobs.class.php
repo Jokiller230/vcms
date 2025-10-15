@@ -22,12 +22,11 @@ use PDO;
 
 class LibCronjobs{
 
-	var $filesToDelete = array('.gitignore', 'composer.json', 'composer.lock', 'inc.php',
-		'installer.php', 'installer2.php', 'installer3.php', 'installer.txt',
-		'Installationsanleitung.html', 'INSTALLATIONSANLEITUNG.txt', 'INSTALL.md',
-		'LICENSE', 'LICENSE.txt', 'README.md', 'update.php', 'update.txt');
+	var $filesToDelete = array('inc.php',
+		'installer.php', 'installer2.php', 'installer3.php',
+		'Installationsanleitung.html', 'INSTALLATIONSANLEITUNG.txt', 'update.php');
 
-	var $directoriesToDelete = array('.git', '.github', 'design', 'js', 'lib', 'styles',
+	var $directoriesToDelete = array('.github', 'design', 'js', 'lib', 'styles',
 		'modules/base_core', 'modules/base_internet_login',
 		'modules/base_internet_vereine', 'modules/base_intranet_administration_dbverwaltung',
 		'modules/base_intranet_dbadmin', 'modules/base_intranet_home', 'modules/base_intranet_personen',

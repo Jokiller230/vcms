@@ -42,3 +42,27 @@ Module können im Intranet mit dem Modul-Manager deinstalliert oder einfach aus 
 ### Einpflegen bestehender Seiten
 
 Falls bereits eine Vereinswebseite existiert, deren Inhalte übernommern werden sollen, kann das Modul mod_internet_verein als Vorlage bearbeitet werden oder ein neues Modul angelegt werden. In der Datei modules/mod_internet_verein/meta.json können Seiten registriert werden.
+
+
+
+Entwicklungs umgebung in Nix
+----------------------------
+
+### direnv/devenv setup
+
+Alles was du für die installation brauchst ist ein funktionierendes nix system mit direnv und flake support
+
+Das einzige was du machen musst bevor du die richtigen umgebung hast ist "direnv allow" einzugeben
+
+
+### Setup of the system
+
+um das System einzurichten musst du einmal "devenv up" eingeben
+
+danach sollte ein fenster in deinem browser öffnen -- führe dort die installation durch
+
+danach startest du noch ein mal denn Server neue (F10 in der Konsole -> "devenv up" wieder eingeben)
+
+lösch die install.php datei wieder
+
+Öffne die neue Seite (usually: https://127.0.0.1:8000) und bam du hast deine neue umgebung
