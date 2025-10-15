@@ -3,18 +3,18 @@
     let
       version = "1.10.0";
 system = "x86_64-linux";
-devenv_root = "/home/blmedia/Documents/development/others/vcms";
-devenv_dotfile = "/home/blmedia/Documents/development/others/vcms/.devenv";
+devenv_root = "/home/jo/Documents/experiments/vcms";
+devenv_dotfile = "/home/jo/Documents/experiments/vcms/.devenv";
 devenv_dotfile_path = ./.devenv;
-devenv_tmpdir = "/run/user/1001";
-devenv_runtime = "/run/user/1001/devenv-f8e4d69";
+devenv_tmpdir = "/run/user/1000";
+devenv_runtime = "/run/user/1000/devenv-477aa6a";
 devenv_istesting = false;
 devenv_direnvrc_latest_version = 1;
 container_name = null;
 active_profiles = [ ];
-hostname = "pineapple";
-username = "blmedia";
-git_root = "/home/blmedia/Documents/development/others/vcms";
+hostname = "puzzlevision";
+username = "jo";
+git_root = "/home/jo/Documents/experiments/vcms";
 
         in {
         git-hooks.url = "github:cachix/git-hooks.nix";
@@ -30,18 +30,18 @@ git_root = "/home/blmedia/Documents/development/others/vcms";
         let
           version = "1.10.0";
 system = "x86_64-linux";
-devenv_root = "/home/blmedia/Documents/development/others/vcms";
-devenv_dotfile = "/home/blmedia/Documents/development/others/vcms/.devenv";
+devenv_root = "/home/jo/Documents/experiments/vcms";
+devenv_dotfile = "/home/jo/Documents/experiments/vcms/.devenv";
 devenv_dotfile_path = ./.devenv;
-devenv_tmpdir = "/run/user/1001";
-devenv_runtime = "/run/user/1001/devenv-f8e4d69";
+devenv_tmpdir = "/run/user/1000";
+devenv_runtime = "/run/user/1000/devenv-477aa6a";
 devenv_istesting = false;
 devenv_direnvrc_latest_version = 1;
 container_name = null;
 active_profiles = [ ];
-hostname = "pineapple";
-username = "blmedia";
-git_root = "/home/blmedia/Documents/development/others/vcms";
+hostname = "puzzlevision";
+username = "jo";
+git_root = "/home/jo/Documents/experiments/vcms";
 
             devenv =
             if builtins.pathExists (devenv_dotfile_path + "/devenv.json")

@@ -109,6 +109,9 @@ class LibCalendarEvent{
 	}
 
 	function getDateOfDateTime($dateTime){
+		if (!$dateTime)
+			return null;
+
 		return substr($dateTime, 0, 10);
 	}
 
