@@ -18,7 +18,7 @@ along with VCMS. If not, see <http://www.gnu.org/licenses/>.
 
 namespace vcms\calendar;
 
-class LibCalendarEvent{
+class LibCalendarEvent {
 	//time infos
 	var $startDateTime; //2008-12-24 20:15:00
 	var $endDateTime;
@@ -108,7 +108,7 @@ class LibCalendarEvent{
 		return $this->getDateOfDateTime($this->endDateTime);
 	}
 
-	function getDateOfDateTime($dateTime){
+	public function getDateOfDateTime(?string $dateTime): ?string {
 		if (!$dateTime)
 			return null;
 
