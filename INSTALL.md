@@ -45,24 +45,32 @@ Falls bereits eine Vereinswebseite existiert, deren Inhalte übernommern werden 
 
 
 
-Entwicklungs umgebung in Nix
+Entwicklungsumgebung in Nix
 ----------------------------
 
-### direnv/devenv setup
+### Initialisation
+Die verwendung dieser Entwicklungsumgebungen geht von folgenden Umständen aus:
+- Du besitzt eine Funktionsfähige Nix Umgebung
+- Direnv ist installiert und ordnungsgemäß konfiguriert
+- Deine Nix Umgebung unterstützt das experimentelle "flakes" Feature
 
-Alles was du für die installation brauchst ist ein funktionierendes nix system mit direnv und flake support
+Um eine Entwicklungsumgebung zu starten, führe folgenden Befehl aus:
+```shell
+direnv allow
+```
 
-Das einzige was du machen musst bevor du die richtigen umgebung hast ist "direnv allow" einzugeben
+### System setup
+Nach dem ersten start, muss folgender Befehl ausgeführt werden, um alle Services vorzubereiten:
+```shell
+devenv up
+```
+Im Folgenden öffnet sich dein Webbrowser, dort kannst du die Installation begleiten.
 
+Nun startest du den Server einmal neu, dies ist über die F10 Taste möglich, solange die Konsole im Fokus liegt.
 
-### Setup of the system
+Jetzt löschst du noch die `installer.php` Datei und führst wieder folgenden Befehl aus.
+```shell
+devenv up
+```
 
-um das System einzurichten musst du einmal "devenv up" eingeben
-
-danach sollte ein fenster in deinem browser öffnen -- führe dort die installation durch
-
-danach startest du noch ein mal denn Server neue (F10 in der Konsole -> "devenv up" wieder eingeben)
-
-lösch die install.php datei wieder
-
-Öffne die neue Seite (usually: https://127.0.0.1:8000) und bam du hast deine neue umgebung
+Öffne die neue Seite (usually: https://127.0.0.1:8000) und bam du hast deine neue Umgebung :3

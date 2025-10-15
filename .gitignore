@@ -9,6 +9,7 @@ modules/mk_*
 
 # devenv
 .devenv
+.devenv.flake.nix
 .direnv
 .installed
 
